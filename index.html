@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Citizen Science Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <body>
+  <canvas id="stars-bg"></canvas>
+  <div class="sprinkles-bg" id="sprinkles-bg"></div>
+  <header>
+    <nav>
+      <div class="logo">Citizen Science Dashboard</div>
+      <ul>
+        <li><a href="#" data-section="home" class="nav-link active">Home</a></li>
+        <li><a href="#" data-section="dashboard" class="nav-link">Dashboard</a></li>
+        <li><a href="#" data-section="solar-system" class="nav-link">Solar System</a></li>
+        <li><a href="#" data-section="study" class="nav-link">Study NASA</a></li>
+        <li><a href="#" data-section="quiz" class="nav-link">Quiz</a></li>
+        <li><a href="#" data-section="about" class="nav-link">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Home Section -->
+    <section id="home" class="main-section">
+      <h1>Citizen Science Dashboard</h1>
+      <p>Explore NASA's open data about Earth and Space. Get live information on natural events, air quality, and more.</p>
+      <div class="hero-img"></div>
+      <div class="home-extra">
+        <div class="home-cards">
+          <div class="home-card" id="home-apod-preview">
+            <h3>Today's Space Image</h3>
+            <div id="home-apod-img"></div>
+          </div>
+          <div class="home-card" id="home-fact">
+            <h3>Did You Know?</h3>
+            <div id="home-nasa-fact"></div>
+          </div>
+        </div>
+        <div class="home-cta">
+          <h3>Become a Citizen Scientist!</h3>
+          <p>Check the <b>Dashboard</b> for live events, or visit <b>Study NASA</b> to learn more about NASA's missions and discoveries.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="main-section" style="display:none;">
+      <h2>Live NASA Data Dashboard</h2>
+      <div class="dashboard-grid">
+        <!-- EONET Events -->
+        <div class="dashboard-card" id="events-section">
+          <h3>Recent Natural Events</h3>
+          <div id="events-list" class="events-list"></div>
+        </div>
+        <!-- User Location -->
+        <div class="dashboard-card" id="location-section">
+          <h3>Your Location</h3>
+          <div id="user-location">Detecting location...</div>
+          <div id="user-temp"></div>
+          <div id="user-time"></div>
+        </div>
+        <!-- Air Quality -->
+        <div class="dashboard-card" id="air-quality-section">
+          <h3>Air Quality</h3>
+          <div id="air-quality-content">Loading air quality...</div>
+        </div>
+        <!-- Soil Quality -->
+        <div class="dashboard-card" id="soil-quality-section">
+          <h3>Soil Quality</h3>
+          <div id="soil-quality-content">Loading soil quality...</div>
+        </div>
+        <!-- Map -->
+        <div class="dashboard-card map-card">
+          <h3>Event Map</h3>
+          <div id="map" style="height:300px;"></div>
+        </div>
+        <!-- APOD -->
+        <div class="dashboard-card" id="apod-section">
+          <h3>Astronomy Picture of the Day</h3>
+          <div id="apod-content"></div>
+        </div>
+        <!-- Chart -->
+        <div class="dashboard-card">
+          <h3>Events by Category</h3>
+          <canvas id="events-chart" width="400" height="250"></canvas>
+        </div>
+        <!-- NASA News -->
+        <div class="dashboard-card" id="news-section">
+          <h3>NASA News</h3>
+          <div id="nasa-news-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solar System Section -->
+    <section id="solar-system" class="main-section" style="display:none;">
+      <h2>Solar System Model</h2>
+      <div class="solar-system-container">
+        <div id="solar-system-canvas"></div>
+      </div>
+      <p style="color:#a3b9cc; margin-top:1em;">Planets revolve around the Sun at relative speeds and distances. (Not to scale)</p>
+    </section>
+
+    <!-- Study NASA Section -->
+    <section id="study" class="main-section" style="display:none;">
+      <h2>Study NASA</h2>
+      <div class="study-content">
+        
+        <div class="study-info">
+          <h3>History of NASA</h3>
+          <p>
+            The National Aeronautics and Space Administration (NASA /ˈnæsə/) is an independent agency of the US federal government responsible for the United States's civil space program, aeronautics research and space research. Established in 1958, it succeeded the National Advisory Committee for Aeronautics (NACA) to give the American space development effort a distinct civilian orientation, emphasizing peaceful applications in space science. It has since led most of America's space exploration programs, including Project Mercury, Project Gemini, the 1968–1972 Apollo program missions, the Skylab space station, and the Space Shuttle. Currently, NASA supports the International Space Station (ISS) along with the Commercial Crew Program and oversees the development of the Orion spacecraft and the Space Launch System for the lunar Artemis program.
+
+NASA's science division is focused on better understanding Earth through the Earth Observing System; advancing heliophysics through the efforts of the Science Mission Directorate's Heliophysics Research Program; exploring bodies throughout the Solar System with advanced robotic spacecraft such as New Horizons and planetary rovers such as Perseverance; and researching astrophysics topics, such as the Big Bang, through the James Webb Space Telescope, the four Great Observatories, and associated programs. The Launch Services Program oversees launch operations for its uncrewed launches. 
+          </p>
+          </div>
+        <div class="study-info">
+
+          <h3>Achievements of NASA</h3>
+          <ul>
+            <li>Apollo 11: First humans landed on the Moon in 1969.</li>
+            <li>Space Shuttle Program: Enabled reusable spaceflight from 1981 to 2011.</li>
+            <li>Hubble Space Telescope: Provided unprecedented views of the universe since 1990.</li>
+            <li>Mars Rovers: Spirit, Opportunity, Curiosity, and Perseverance have explored Mars' surface.</li>
+            <li>Voyager Probes: Voyager 1 and 2 are the farthest human-made objects from Earth.</li>
+            <li>International Space Station: NASA is a key partner in this orbiting laboratory.</li>
+          </ul>
+          </div>
+        <div class="study-info">
+
+          <h3>Failures of NASA</h3>
+          <ul>
+            <li>Apollo 1: Cabin fire during a test in 1967 killed three astronauts.</li>
+            <li>Challenger Disaster: Space Shuttle Challenger broke apart in 1986, resulting in seven fatalities.</li>
+            <li>Columbia Disaster: Space Shuttle Columbia disintegrated during re-entry in 2003, killing all seven crew members.</li>
+            <li>Mars Climate Orbiter: Lost in 1999 due to a navigation error caused by unit conversion mistakes.</li>
+          </ul>
+          </div>
+        <div class="study-info">
+          <h3>Future Projects of NASA</h3>
+          <ul>
+            <li>Artemis Program: Returning humans to the Moon, including the first woman and next man.</li>
+            <li>Mars Sample Return: Bringing samples from Mars back to Earth.</li>
+            <li>James Webb Space Telescope: Studying the early universe and exoplanets.</li>
+            <li>Gateway: Lunar orbit space station to support deep space exploration.</li>
+          </ul>
+          </div>
+        <div class="study-info">
+          <h3>Importance of NASA</h3>
+          <p>
+            NASA drives innovation in science and technology, inspires generations, and expands our understanding of Earth and the universe. Its research benefits society through advancements in materials, communications, medicine, and environmental monitoring. NASA's missions foster international cooperation and help address global challenges such as climate change.
+          </p></div>
+        <div class="study-info">
+
+        
+        <div class="study-links">
+          <h3>Learn More</h3>
+          <ul>
+            <li><a href="https://www.nasa.gov/" target="_blank">NASA Official Website</a></li>
+            <li><a href="https://science.nasa.gov/" target="_blank">NASA Science</a></li>
+            <li><a href="https://www.nasa.gov/missions" target="_blank">NASA Missions</a></li>
+            <li><a href="https://www.nasa.gov/kidsclub/index.html" target="_blank">NASA Kids' Club</a></li>
+          </ul>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="main-section" style="display:none;">
+      <h2>NASA Quiz</h2>
+      <div id="quiz-paragraph" class="quiz-paragraph"></div>
+      <form id="quiz-form">
+        <div id="quiz-questions"></div>
+        <button type="submit" id="quiz-submit">Submit Answers</button>
+      </form>
+      <div id="quiz-result"></div>
+      <button id="quiz-next-level" style="display:none;">Next Level</button>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="main-section" style="display:none;">
+      <h2>About Citizen Science Dashboard</h2>
+      <div class="about-beautiful">
+        <div class="about-mission">
+          <h3>Our Mission</h3>
+          <p>
+            <b>Citizen Science Dashboard</b> empowers everyone to explore and understand our planet and universe using NASA's open data.<br>
+            <span class="about-highlight">Track real-time natural events, see your location on a live map, enjoy daily space images, and stay updated with NASA news.</span>
+          </p>
+        </div>
+        <div class="about-features">
+          <h3>Features</h3>
+          <ul>
+            <li>🌍 Live natural event tracking (wildfires, storms, volcanoes, floods)</li>
+            <li>📍 Your location, temperature, and local time</li>
+            <li>🗺️ Interactive world map</li>
+            <li>📊 Event statistics and charts</li>
+            <li>📰 Latest NASA news</li>
+            <li>🌌 Astronomy Picture of the Day</li>
+            <li>📚 Study NASA facts and resources</li>
+          </ul>
+        </div>
+        <div class="about-resources">
+          <h3>Resources</h3>
+          <ul>
+            <li><a href="https://eonet.gsfc.nasa.gov/docs/v3" target="_blank">NASA EONET API</a></li>
+            <li><a href="https://api.nasa.gov/" target="_blank">NASA Open APIs</a></li>
+            <li><a href="https://apod.nasa.gov/apod/astropix.html" target="_blank">Astronomy Picture of the Day</a></li>
+            <li><a href="https://www.nasa.gov/news/releases/latest/index.html" target="_blank">NASA Newsroom</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made for NASA Space Apps Challenge 2025</p>
+  </footer>
+
+  <!-- Fixed NASA logo bottom right -->
+  <div class="nasa-logo-fixed">
+    <img src="nasa-logo.png" alt="NASA Logo" />
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
