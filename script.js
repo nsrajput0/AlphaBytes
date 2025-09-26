@@ -68,7 +68,7 @@ const sampleEvents = [
 ];
 
 function fetchEONET() {
-  fetch('https://eonet.gsfc.nasa.gov/api/v3/events')
+  fetch('https://eonet.gsfc.nasa.gov/api/v3/events?limit=20')
     .then(r => r.json())
     .then(data => {
       eonetEvents = data.events || [];
@@ -202,7 +202,7 @@ const sampleAPOD = {
   explanation: "This cosmic landscape shows emission nebula NGC 6188 in the windswept, dusty reaches of the constellation Ara."
 };
 function fetchAPOD() {
-  fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+  fetch('https://api.nasa.gov/planetary/apod?api_key=Vt29Ma0AF0QNw8kbzKlbFH0vmtYMSBGgHG3rZJab')
     .then(r => r.json())
     .then(data => {
       // Fallback to sample if required fields are missing or if url is not an image
