@@ -332,11 +332,26 @@ const sampleNews = [
 ];
 
 function fetchNASANews() {
-  // NASA news RSS proxy (public CORS proxy, fallback to sample)
-  fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY') // Dummy fetch to check connectivity
-    .then(() => fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')) // NASA doesn't have a direct news API with CORS, so fallback to sample
-    .then(() => renderNASANews(sampleNews))
-    .catch(() => renderNASANews(sampleNews));
+  // Use NASA Breaking News RSS feed via rss2json proxy
+  fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.nasa.gov/rss/dyn/breaking_news.rss')
+    .then(r => r.json())
+    .then(data => {
+      if (data && data.items && data.items.length) {
+        // Map RSS items to your card format
+        const newsArr = data.items.map(item => ({
+          title: item.title,
+          published_date: item.pubDate ? item.pubDate.split(' ')[0] : '',
+          url: item.link,
+          summary: item.description.replace(/<[^>]+>/g, '') // Remove HTML tags
+        }));
+        renderNASANews(newsArr);
+      } else {
+        renderNASANews(sampleNews);
+      }
+    })
+    .catch(() => {
+      renderNASANews(sampleNews);
+    });
 }
 function renderNASANews(newsArr) {
   const newsDiv = document.getElementById('nasa-news-list');
@@ -530,6 +545,101 @@ const quizParagraphs = [
           "A comet"
         ],
         answer: 1
+      }
+    ]
+  },
+  {
+    paragraph: `NASA has sent several missions to Mars, including the Spirit, Opportunity, Curiosity, and Perseverance rovers. These missions have helped us learn about Mars' geology, climate, and potential for life.`,
+    questions: [
+      {
+        q: "Which rover landed on Mars in 2012?",
+        options: ["Spirit", "Curiosity", "Opportunity", "Perseverance"],
+        answer: 1
+      },
+      {
+        q: "What is the main goal of the Perseverance rover?",
+        options: [
+          "Study Jupiter's moons",
+          "Search for signs of ancient life",
+          "Map Earth's oceans",
+          "Observe the Sun"
+        ],
+        answer: 1
+      },
+      {
+        q: "Which rover operated for over 14 years on Mars?",
+        options: ["Spirit", "Opportunity", "Curiosity", "Viking"],
+        answer: 1
+      },
+      {
+        q: "What is the name of the first successful Mars rover?",
+        options: ["Sojourner", "Spirit", "Curiosity", "Perseverance"],
+        answer: 0
+      },
+       {
+        q: "Mars is also known as the:",
+        options: ["Blue Planet", "Red Planet", "Green Planet", "Ringed Planet"],
+        answer: 1
+      }
+    ]
+  },
+  {
+    paragraph: `Our solar system consists of the Sun, eight planets, dwarf planets, moons, asteroids, and comets. Each planet has unique characteristics, such as size, atmosphere, and number of moons.`,
+    questions: [
+      {
+        q: "Which planet is the largest in our solar system?",
+        options: ["Earth", "Saturn", "Jupiter", "Neptune"],
+        answer: 2
+      },
+      {
+        q: "Which planet has the most moons?",
+        options: ["Mars", "Saturn", "Jupiter", "Venus"],
+        answer: 1
+      },
+      {
+        q: "Which planet is closest to the Sun?",
+        options: ["Venus", "Mercury", "Earth", "Mars"],
+        answer: 1
+      },
+      {
+        q: "What is the main component of Jupiter's atmosphere?",
+        options: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Methane"],
+        answer: 1
+      },
+      {
+        q: "Which planet is known for its rings?",
+        options: ["Mars", "Saturn", "Uranus", "Neptune"],
+        answer: 1
+      }
+    ]
+  },
+  {
+    paragraph: `Astronauts have played a vital role in space exploration. From the first human in space to the Moon landings and the International Space Station, their missions have expanded our understanding of space.`,
+    questions: [
+      {
+        q: "Who was the first human to travel into space?",
+        options: ["Neil Armstrong", "Yuri Gagarin", "Buzz Aldrin", "John Glenn"],
+        answer: 1
+      },
+      {
+        q: "Who was the first person to walk on the Moon?",
+        options: ["Yuri Gagarin", "John Glenn", "Neil Armstrong", "Alan Shepard"],
+        answer: 2
+      },
+      {
+        q: "Which spacecraft carried the first humans to the Moon?",
+        options: ["Gemini", "Apollo 11", "Soyuz", "Mercury"],
+        answer: 1
+      },
+      {
+        q: "The International Space Station is a collaboration between how many main agencies?",
+        options: ["2", "3", "5", "7"],
+        answer: 2
+      },
+      {
+        q: "Which astronaut spent nearly a year in space aboard the ISS?",
+        options: ["Scott Kelly", "Chris Hadfield", "Peggy Whitson", "Valentina Tereshkova"],
+        answer: 0
       }
     ]
   }
@@ -836,18 +946,107 @@ function renderSolarSystem() {
   // Sun
   const sun = document.createElement('div');
   sun.className = 'solar-sun';
+  sun.style.cursor = 'pointer';
   canvas.appendChild(sun);
 
-  // Planet data: [name, orbit radius(px), size(px), color, orbital period(seconds)]
+  // Sun info object
+  const sunInfo = {
+    description: "The Sun is the star at the center of our solar system. It provides the energy that sustains life on Earth.",
+    diameter: "1,391,000 km",
+    atmosphere: "Hydrogen, helium (plasma)",
+    imp_details: "Surface temperature ~5,500°C. Core temperature ~15 million°C. Accounts for 99.86% of solar system's mass."
+  };
+
+  // Sun click handler
+  sun.onclick = function () {
+    const infoDiv = document.getElementById('planet-info');
+    if (!infoDiv) return;
+    infoDiv.style.display = 'block';
+    infoDiv.innerHTML = `
+      <h3 style="margin-top:0;">Sun</h3>
+      <p>${sunInfo.description}</p>
+      <ul style="margin:0.5em 0 0 1em;">
+        <li><b>Diameter:</b> ${sunInfo.diameter}</li>
+        <li><b>Atmosphere:</b> ${sunInfo.atmosphere}</li>
+        <li><b>Important Details:</b> ${sunInfo.imp_details}</li>
+      </ul>
+    `;
+  };
+
+  // Planet data: [name, orbit radius(px), size(px), color, orbital period(seconds), info]
   const planets = [
-    ['Mercury', 70, 8, '#b1b1b1', 4.8],
-    ['Venus', 100, 14, '#e6c97b', 12.2],
-    ['Earth', 135, 16, '#3ec6e0', 20],
-    ['Mars', 170, 12, '#e05c3e', 37.7],
-    ['Jupiter', 215, 28, '#e0c39c', 236],
-    ['Saturn', 260, 24, '#e6e0b2', 588],
-    ['Uranus', 305, 18, '#a3e0e6', 1684],
-    ['Neptune', 340, 18, '#3e6ee0', 3288]
+    ['Mercury', 70, 8, '#b1b1b1', 4.8, {
+      description: "Mercury is the closest planet to the Sun and the smallest in the Solar System.",
+      diameter: "4,879 km",
+      orbit: "88 days",
+      moons: "0",
+      distance_from_sun: "57.9 million km",
+      atmosphere: "None (trace amounts of oxygen, sodium, hydrogen)",
+      imp_details: "Surface temperature varies from -173°C to 427°C. No moons."
+    }],
+    ['Venus', 100, 14, '#e6c97b', 12.2, {
+      description: "Venus is the hottest planet and has a thick, toxic atmosphere.",
+      diameter: "12,104 km",
+      orbit: "225 days",
+      moons: "0",
+      distance_from_sun: "108.2 million km",
+      atmosphere: "Carbon dioxide, thick clouds of sulfuric acid",
+      imp_details: "Surface temperature ~465°C. Rotates retrograde. No moons."
+    }],
+    ['Earth', 135, 16, '#3ec6e0', 20, {
+      description: "Earth is our home planet, the only known planet with life.",
+      diameter: "12,742 km",
+      orbit: "365 days",
+      moons: "1 (Moon)",
+      distance_from_sun: "149.6 million km",
+      atmosphere: "Nitrogen, oxygen, argon, carbon dioxide",
+      imp_details: "Supports life. 71% surface covered by water."
+    }],
+    ['Mars', 170, 12, '#e05c3e', 37.7, {
+      description: "Mars is known as the Red Planet and has the largest volcano in the Solar System.",
+      diameter: "6,779 km",
+      orbit: "687 days",
+      moons: "2 (Phobos, Deimos)",
+      distance_from_sun: "227.9 million km",
+      atmosphere: "Carbon dioxide, nitrogen, argon",
+      imp_details: "Home to Olympus Mons (largest volcano). Evidence of ancient water."
+    }],
+    ['Jupiter', 215, 28, '#e0c39c', 236, {
+      description: "Jupiter is the largest planet and has a giant storm called the Great Red Spot.",
+      diameter: "139,820 km",
+      orbit: "12 years",
+      moons: "95",
+      distance_from_sun: "778.5 million km",
+      atmosphere: "Hydrogen, helium, ammonia, methane",
+      imp_details: "Has faint rings. Great Red Spot is a giant storm."
+    }],
+    ['Saturn', 260, 24, '#e6e0b2', 588, {
+      description: "Saturn is famous for its beautiful rings.",
+      diameter: "116,460 km",
+      orbit: "29 years",
+      moons: "146",
+      distance_from_sun: "1.43 billion km",
+      atmosphere: "Hydrogen, helium, methane, ammonia",
+      imp_details: "Rings made of ice and rock. Least dense planet."
+    }],
+    ['Uranus', 305, 18, '#a3e0e6', 1684, {
+      description: "Uranus rotates on its side and has faint rings.",
+      diameter: "50,724 km",
+      orbit: "84 years",
+      moons: "27",
+      distance_from_sun: "2.87 billion km",
+      atmosphere: "Hydrogen, helium, methane",
+      imp_details: "Axis tilted 98°. Faint rings. Coldest planet."
+    }],
+    ['Neptune', 340, 18, '#3e6ee0', 3288, {
+      description: "Neptune is the farthest planet and has strong winds.",
+      diameter: "49,244 km",
+      orbit: "165 years",
+      moons: "14",
+      distance_from_sun: "4.5 billion km",
+      atmosphere: "Hydrogen, helium, methane",
+      imp_details: "Fastest winds in solar system. Has faint rings."
+    }]
   ];
 
   // Draw orbits
@@ -860,7 +1059,7 @@ function renderSolarSystem() {
   });
 
   // Create planets
-  planets.forEach(([name, radius, size, color, period], idx) => {
+  planets.forEach(([name, radius, size, color, period, info], idx) => {
     const planet = document.createElement('div');
     planet.className = 'solar-planet';
     planet.style.width = planet.style.height = size + 'px';
@@ -889,6 +1088,25 @@ function renderSolarSystem() {
       requestAnimationFrame(animatePlanet);
     }
     animatePlanet();
+
+    // --- Planet click handler ---
+    planet.onclick = function () {
+      const infoDiv = document.getElementById('planet-info');
+      if (!infoDiv) return;
+      infoDiv.style.display = 'block';
+      infoDiv.innerHTML = `
+        <h3 style="margin-top:0;">${name}</h3>
+        <p>${info.description}</p>
+        <ul style="margin:0.5em 0 0 1em;">
+          <li><b>Diameter:</b> ${info.diameter}</li>
+          <li><b>Orbit Period:</b> ${info.orbit}</li>
+          <li><b>Moons:</b> ${info.moons}</li>
+          <li><b>Distance from Sun:</b> ${info.distance_from_sun || 'N/A'}</li>
+          <li><b>Atmosphere:</b> ${info.atmosphere || 'N/A'}</li>
+          <li><b>Important Details:</b> ${info.imp_details || 'N/A'}</li>
+        </ul>
+      `;
+    };
   });
 }
 

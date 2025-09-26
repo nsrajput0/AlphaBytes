@@ -8,13 +8,12 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
-<body>
   <body>
   <canvas id="stars-bg"></canvas>
   <div class="sprinkles-bg" id="sprinkles-bg"></div>
   <header>
     <nav>
-      <div class="logo">Citizen Science Dashboard</div>
+      <div class="logo">EarthLens</div>
       <ul>
         <li><a href="#" data-section="home" class="nav-link active">Home</a></li>
         <li><a href="#" data-section="dashboard" class="nav-link">Dashboard</a></li>
@@ -29,7 +28,7 @@
   <main>
     <!-- Home Section -->
     <section id="home" class="main-section">
-      <h1>Citizen Science Dashboard</h1>
+      <h1>EarthLens</h1>
       <p>Explore NASA's open data about Earth and Space. Get live information on natural events, air quality, and more.</p>
       <div class="hero-img"></div>
       <div class="home-extra">
@@ -105,7 +104,11 @@
       <div class="solar-system-container">
         <div id="solar-system-canvas"></div>
       </div>
+
+        <!-- Info box for planet/sun details -->
       <p style="color:#a3b9cc; margin-top:1em;">Planets revolve around the Sun at relative speeds and distances. (Not to scale)</p>
+      <div id="planet-info" style="margin-top:2em; background:#1a2233; color:#fff; padding:1em; border-radius:8px;  display:none; z-index:20;"></div>
+      
     </section>
 
     <!-- Study NASA Section -->
@@ -116,47 +119,136 @@
         <div class="study-info">
           <h3>History of NASA</h3>
           <p>
-            The National Aeronautics and Space Administration (NASA /ˈnæsə/) is an independent agency of the US federal government responsible for the United States's civil space program, aeronautics research and space research. Established in 1958, it succeeded the National Advisory Committee for Aeronautics (NACA) to give the American space development effort a distinct civilian orientation, emphasizing peaceful applications in space science. It has since led most of America's space exploration programs, including Project Mercury, Project Gemini, the 1968–1972 Apollo program missions, the Skylab space station, and the Space Shuttle. Currently, NASA supports the International Space Station (ISS) along with the Commercial Crew Program and oversees the development of the Orion spacecraft and the Space Launch System for the lunar Artemis program.
+            🚀 The Complete History of NASA <br>
 
-NASA's science division is focused on better understanding Earth through the Earth Observing System; advancing heliophysics through the efforts of the Science Mission Directorate's Heliophysics Research Program; exploring bodies throughout the Solar System with advanced robotic spacecraft such as New Horizons and planetary rovers such as Perseverance; and researching astrophysics topics, such as the Big Bang, through the James Webb Space Telescope, the four Great Observatories, and associated programs. The Launch Services Program oversees launch operations for its uncrewed launches. 
+🌍 Origins <br>
+
+Founded: July 29, 1958 (by National Aeronautics and Space Act). <br>
+
+Reason: Cold War tensions & the USSR’s launch of Sputnik 1 (1957). <br>
+
+Predecessor: NACA (National Advisory Committee for Aeronautics, founded in 1915). <br>
+
+Official Start: October 1, 1958. <br><br>
+
+
+👉 First Administrator: Dr. T. Keith Glennan <br>
+👉 Motto: “For the Benefit of All.” <br> <br> <br>
+
+
+---
+<br>
+🧑‍🚀 The Space Race Era (1958–1969) <br>
+
+Project Mercury (1959–63): <br>
+
+Goal → Send first Americans into space. <br>
+
+1961: Alan Shepard → 1st American in space. <br>
+
+1962: John Glenn → 1st American to orbit Earth. <br><br>
+
+
+Project Gemini (1961–66): <br>
+
+Practiced spacewalks, docking, and long-duration flights. <br>
+
+Helped prepare astronauts for the Moon. <br>
+
+
+Apollo Program (1961–72): <br>
+
+Announced by President John F. Kennedy (1961): “We choose to go to the Moon.” <br>
+
+Apollo 8 (1968): 1st crewed spacecraft to orbit the Moon. <br>
+
+Apollo 11 (1969): Neil Armstrong & Buzz Aldrin walked on the Moon. <br>
+
+Six Moon landings in total (Apollo 11–17, except 13 due to in-flight emergency). <br> <br><br>
+
+
+
+
+--- <br>
+
+🛰️ Post-Apollo Achievements (1970s–1980s) <br>
+
+Skylab (1973–79): America’s first space station. <br>
+
+Apollo-Soyuz Test Project (1975): First U.S.–Soviet joint mission → symbol of peace. <br>
+
+Voyager Probes (1977): Sent to study outer planets (still sending signals today 🌌). <br>
+
+Space Shuttle Program (1981–2011): <br>
+
+Reusable spacecraft (Columbia, Challenger, Discovery, Atlantis, Endeavour). <br>
+
+Challenger disaster (1986) → Shuttle exploded after launch. <br>
+
+Revolutionized satellite deployment & ISS construction. <br><br><br>
+
+
+
+
+--- <br>
+
+🌌 The Modern Space Age (1990s–2000s) <br>
+
+Hubble Space Telescope (1990): Gave breathtaking deep-space images. <br>
+
+International Space Station (1998–Present): Built by NASA + Russia + partners. <br>
+
+Mars Exploration Rovers (2003): Spirit & Opportunity explored the Red Planet. <br>
+
+Columbia Disaster (2003): Shuttle disintegrated on re-entry → 7 astronauts lost. <br><br><br>
+
+
+
+--- <br>
+
+✨ The New Era (2010s–Present) <br>
+
+Curiosity Rover (2012): Landed on Mars with advanced science lab. <br>
+
+New Horizons (2015): Flyby mission → first detailed images of Pluto. <br>
+
+Perseverance Rover (2021): Searching for signs of ancient life on Mars. <br>
+
+James Webb Space Telescope (2021): Most powerful telescope ever launched. <br>
+
+Commercial Partnerships: Collaborating with SpaceX, Blue Origin, Boeing, etc. <br>
+
+Artemis Program (Ongoing): <br>
+
+Goal → Return astronauts to the Moon by mid-2020s. <br>
+
+Special focus: First woman and first person of color on the Moon. <br>
+
+Long-term → Use Moon as base for Mars missions. <br><br><br>
+
+
+
+
+--- <br>
+
+📍 Fun Facts about NASA <br>
+
+Budget (2024): ~$25 billion. <br>
+
+NASA inventions used in daily life: memory foam, scratch-resistant lenses, water filters, cordless tools, freeze-dried food. <br>
+
+NASA’s motto: “Explore. Discover. Understand.” <br>
+
+NASA has 10 major research centers across the U.S. (e.g., Kennedy Space Center, Johnson Space Center, Jet Propulsion Laboratory). <br><br><br>
+
+
+
+--- <br>
+
+👉 In short, NASA’s journey is like this: <br>
+Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & ISS → Mars rovers & Hubble → Artemis & Webb for the future🌌✨
           </p>
           </div>
-        <div class="study-info">
-
-          <h3>Achievements of NASA</h3>
-          <ul>
-            <li>Apollo 11: First humans landed on the Moon in 1969.</li>
-            <li>Space Shuttle Program: Enabled reusable spaceflight from 1981 to 2011.</li>
-            <li>Hubble Space Telescope: Provided unprecedented views of the universe since 1990.</li>
-            <li>Mars Rovers: Spirit, Opportunity, Curiosity, and Perseverance have explored Mars' surface.</li>
-            <li>Voyager Probes: Voyager 1 and 2 are the farthest human-made objects from Earth.</li>
-            <li>International Space Station: NASA is a key partner in this orbiting laboratory.</li>
-          </ul>
-          </div>
-        <div class="study-info">
-
-          <h3>Failures of NASA</h3>
-          <ul>
-            <li>Apollo 1: Cabin fire during a test in 1967 killed three astronauts.</li>
-            <li>Challenger Disaster: Space Shuttle Challenger broke apart in 1986, resulting in seven fatalities.</li>
-            <li>Columbia Disaster: Space Shuttle Columbia disintegrated during re-entry in 2003, killing all seven crew members.</li>
-            <li>Mars Climate Orbiter: Lost in 1999 due to a navigation error caused by unit conversion mistakes.</li>
-          </ul>
-          </div>
-        <div class="study-info">
-          <h3>Future Projects of NASA</h3>
-          <ul>
-            <li>Artemis Program: Returning humans to the Moon, including the first woman and next man.</li>
-            <li>Mars Sample Return: Bringing samples from Mars back to Earth.</li>
-            <li>James Webb Space Telescope: Studying the early universe and exoplanets.</li>
-            <li>Gateway: Lunar orbit space station to support deep space exploration.</li>
-          </ul>
-          </div>
-        <div class="study-info">
-          <h3>Importance of NASA</h3>
-          <p>
-            NASA drives innovation in science and technology, inspires generations, and expands our understanding of Earth and the universe. Its research benefits society through advancements in materials, communications, medicine, and environmental monitoring. NASA's missions foster international cooperation and help address global challenges such as climate change.
-          </p></div>
         <div class="study-info">
 
         
